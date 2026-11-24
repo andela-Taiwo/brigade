@@ -26,6 +26,9 @@ Three kinds of check, from exact to comparative:
 An independent rule checker reads the event log and validates every dispatch. It never imports
 the dispatch engine.
 
+These checks run first on a small hand-written country kept as a fixture, before the
+national-scale generator exists, so the engine is trusted before it is scaled.
+
 ## Consequences
 
 - A claim that a policy is better always comes with the baseline and the seeds it was run on.

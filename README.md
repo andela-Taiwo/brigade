@@ -5,28 +5,28 @@ which engine goes to which call, how to keep every area covered while the busies
 stretched, and when to send help across regional borders.
 
 > **Status: foundation only.** The project layout, tooling, Erlang queueing formulas, a
-> coverage measure and seeded random streams exist and are tested. The synthetic country,
-> incidents, dispatch, move-up, mutual aid and the web UI are not built yet. See
+> coverage measure and seeded random streams exist and are tested. The event engine,
+> dispatch, move-up, mutual aid, the country generator and the web UI are not built yet. See
 > [the plan](docs/PLAN.md).
 
 ## What it will do
 
-- **A synthetic country**: regions, towns, fire stations, engines and specialist vehicles
-  (aerial ladders, water carriers, rescue units), crews on shifts, and a road network with
-  travel times.
-- **Incidents**: everyday calls with realistic daily and weekly patterns, and disaster scenarios
-  (widespread flooding, a heatwave with many grass and forest fires, a storm closing roads) that
-  hit several regions at once.
-- **Dispatch**: send the right vehicles to each call under clear, checked rules, and compare
-  policies: nearest engine, cover-preserving dispatch, and moving idle engines to fill gaps.
-- **Mutual aid**: when a region runs out, borrow engines from neighbours without leaving their
-  own areas uncovered.
-- **Crews**: shift limits and rest after long incidents, so the service does not run on
-  exhausted crews.
+- **A deterministic event engine**: a simulated clock, incidents arriving at random from a
+  seed, and a full event log. The same seed always gives the same log, byte for byte.
+- **Dispatch, checked**: nearest-engine dispatch as the baseline, and an independent checker
+  that validates every dispatch from the log. For a single station, waits and losses match
+  Erlang's formulas.
+- **Keeping cover**: send a slightly further engine when the nearest one would leave an area
+  uncovered, and move idle engines to fill gaps. Checked against an exact optimiser on a small
+  country, and always reported next to the nearest-engine baseline on the same seeds.
+- **Disasters**: floods, heatwave fires or storms hitting several regions at once, with mutual
+  aid between regions, closed roads, and crew shift limits.
+- **A whole country**: a seeded generator for a made-up country at national scale.
 - **Live view**: a map of stations, engines and incidents, scenarios you can trigger, and a
   timeline you can replay.
 
-All randomness comes from a seed, so every run replays exactly. The country is made up.
+Two rules run through all of it: where theory gives an exact answer, the simulator must match
+it; and no policy is ever reported without the baseline beside it. The country is made up.
 
 ## What exists today
 
